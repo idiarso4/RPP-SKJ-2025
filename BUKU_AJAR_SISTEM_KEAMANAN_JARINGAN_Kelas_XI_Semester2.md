@@ -7,7 +7,7 @@ Puji syukur kehadirat Tuhan Yang Maha Esa atas segala rahmat dan karunia-Nya seh
 - Program Keahlian: Sistem Informasi Jaringan dan Aplikasi (SIJA)
 - Mata Pelajaran: Sistem Keamanan Jaringan
 - Fase/Kelas/Semester: Fase F / XI / Semester 2
-- Tahun Pelajaran: 2024/2025
+- Tahun Pelajaran: 2025/2026
 - Penyusun: Idiarso, S.Kom
 - Alokasi Waktu: 16 pertemuan (48 jam pelajaran @ 45 menit)
 
