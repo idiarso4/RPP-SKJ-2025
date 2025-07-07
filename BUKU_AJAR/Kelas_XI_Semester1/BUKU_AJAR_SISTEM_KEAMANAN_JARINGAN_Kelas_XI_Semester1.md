@@ -652,12 +652,23 @@ Setelah mengikuti pembelajaran ini, peserta didik mampu:
 - Rekomendasi untuk sekolah/orang tua:
   • _________________________________________________________________
 
-Nama Kota, Tanggal
-Mengetahui	Guru Kelas / Mapel,
-Kepala Sekolah,
+Mengetahui 							    Punggelan, 7 Juli 2025
+Kepala SMK Negeri 1 Punggelan		    Guru Mapel
 
-…………………………………………	…………………………………………….
-NIP. …………………………………….	NIP. …………………………………………
+
+
+
+
+Pontjo Nugroho, S.Pd  				    Idiarso, S.Kom 
+NIP. 19710810199803 1 008  			    NIP. 19830804202221 1 006
+
+
+
+
+
+
+
+
 
 
 
