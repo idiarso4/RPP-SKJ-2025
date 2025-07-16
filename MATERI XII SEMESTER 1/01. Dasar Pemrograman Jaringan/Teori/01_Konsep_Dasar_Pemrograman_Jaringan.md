@@ -5,13 +5,19 @@
 ### 1.1 Gambaran Umum
 Pemrograman jaringan adalah proses menulis program yang dapat berkomunikasi dengan program lain yang berjalan di komputer yang berbeda melalui jaringan. Materi ini akan membahas dasar-dasar pemrograman jaringan menggunakan Python, yang menyediakan modul bawaan untuk menangani berbagai protokol jaringan.
 
+     Pemrograman jaringan adalah proses menulis program yang memungkinkankomputer saling berkomunikasi dan bertukar informasi melalui jaringan komputer, baik lokal (LAN), jaringan luas (WAN), maupun internet. Dalam konteks ini, pemrograman jaringan fokus pada pembuatan aplikasi yang bisa menjalankan komunikasi data antar perangkat atau aplikasi menggunakan berbagai protokol jaringan seperti TCP/IP, UDP, HTTP, dan FTP .
+
+Python adalah salah satu bahasa pemrograman yang populer digunaka nuntuk pemrograman jaringa nkarena menyediaka nmodul bawaan bernama socket yang memungkinkan pengembang membuat komunikasi klien-server secara efisien dan mudah pada level yangcukup rendah(lapisan transportasi). Modul ini memungkinkan konfigurasi soket dengan protokol TCP(berorientasi pada koneksi) dan UDP (tanpa koneksi) serta mendukung inter oper kemampuan dengan berbagai sistem operasi sepertiLinux, Windows, dan macOS  .
+
+Pemrograman jaringanmembuka peluang pengembangan aplikasireal-time seperti mengobrol, webserver, layanan cloud, hingga aplikasi berbasis IoT (Internet ofThings) dengan memanfaatkan koneksi berbasis protokol jaringan tersebut  .
+
 ### 1.2 Tujuan Pembelajaran
 Setelah mempelajari materi ini, peserta didik mampu:
-- Memahami model referensi OSI dan TCP/IP
-- Mengimplementasikan socket programming dengan Python
-- Membuat aplikasi client-server sederhana
-- Menangani koneksi jaringan secara konkuren
-- Menerapkan protokol aplikasi dasar (HTTP, FTP, dll.)
+- Memahami model referensi OSI dan TCP/IP sebagai dasar protokol komunikasi jaringan yang mendasari implementasi pemrograman jaringan.
+- Mengimplementasikan pemrograman soket dengan Python , yaitu menggunakan modul socketuntuk membangun aplikasi jaringan yang mampu berkomunikasi dengan cara membuka koneksi, mengirim dan menerima data
+- Membuat aplikasi client-server sederhana yang dapat saling berinteraksi melalui protokol TCP.
+- melibatkan koneksi jaringan secara konkuren , misalnya dengan menggunakan threading atau multiprocessing agar server mampu melayani banyak klien sekaligus tanpa harus antri.
+- Menerapkan protokol aplikasi dasar seperti HTTP dan FTP secara sederhana untuk memahami bagaimana komunikasi data pada lapisan aplikasi berlangsung.
 
 ## 2. Arsitektur Jaringan
 
@@ -31,7 +37,10 @@ graph TD
     I -->|Layer 2| L[Internet]
     I -->|Layer 1| M[Network Access]
 ```
+    Model OSI (Open Systems Interconnection) adalah model konsep jaringan yang membagi komunikasi jaringan menjadi 7 lapisan: Fisik, Data Link, Jaringan, Transportasi, Sesi, Presentasi, dan Aplikasi. Model ini membantu memahami fungsi setiap lapisan jaringan secara rinci  .
 
+    Model TCP/IP lebih praktis dan umum digunakan di dunia nyata, terdiri dari 4 lapisan yaitu Network Interface, Internet, Transport, dan Application. TCP dan UDP merupakan protokol utama di lapisan transport yang digunakan dalam pemrograman jaringan  .
+    
 ### 2.2 Protokol Jaringan Umum
 - **HTTP/HTTPS**: Protokol untuk transfer data web
 - **FTP/FTPS/SFTP**: Protokol transfer file
