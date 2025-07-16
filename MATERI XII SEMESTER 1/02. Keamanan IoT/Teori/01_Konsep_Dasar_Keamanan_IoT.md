@@ -64,95 +64,200 @@ graph TD
   - Kebocoran data pribadi
 
 ### 3.2 Kerentanan Umum OWASP IoT Top 10
-1. Weak, Guessable, or Hardcoded Passwords
-2. Insecure Network Services
-3. Insecure Ecosystem Interfaces
-4. Lack of Secure Update Mechanism
-5. Use of Insecure or Outdated Components
-6. Insufficient Privacy Protection
-7. Insecure Data Transfer and Storage
-8. Lack of Device Management
-9. Insecure Default Settings
-10. Lack of Physical Hardening
+1. **Kredensial Lemah**
+   - Password default/tertebak
+   - Kredensial hardcoded
+   - Contoh: Kamera IP dengan password admin:admin
+
+2. **Layanan Jaringan Tidak Aman**
+   - Port terbuka tidak perlu
+   - Layanan tanpa autentikasi
+   - Contoh: Telnet aktif di perangkat IoT
+
+3. **Antarmuka Ekosistem Tidak Aman**
+   - API tidak terproteksi
+   - Web interface rentan
+   - Contoh: Panel admin tanpa HTTPS
+
+4. **Mekanisme Pembaruan Tidak Aman**
+   - Update tidak terenkripsi
+   - Tidak ada verifikasi tanda tangan
+   - Contoh: Firmware update via HTTP
+
+5. **Komponen Tidak Aman**
+   - Library usang
+   - Komponen pihak ketiga rentan
+   - Contoh: Versi OpenSSL lama
+
+6. **Perlindungan Privasi Tidak Memadai**
+   - Pengumpulan data berlebihan
+   - Penyimpanan data sensitif tidak aman
+   - Contoh: Penyimpanan data pengguna tanpa enkripsi
+
+7. **Transfer dan Penyimpanan Data Tidak Aman**
+   - Data tidak terenkripsi
+   - Protokol tidak aman
+   - Contoh: Mengirim data sensor via HTTP
+
+8. **Manajemen Perangkat Buruk**
+   - Tidak ada inventaris perangkat
+   - Monitoring terbatas
+   - Contoh: Tidak ada log akses perangkat
+
+9. **Pengaturan Default Tidak Aman**
+   - Konfigurasi awal lemah
+   - Fitur tidak perlu aktif
+   - Contoh: Akun guest aktif default
+
+10. **Keamanan Fisik Lemah**
+    - Port debug terbuka
+    - Tidak ada proteksi tamper
+    - Contoh: Port USB debug aktif
 
 ## 4. Prinsip Keamanan IoT
 
-### 4.1 CIA Triad pada IoT
-- **Confidentiality**: Enkripsi data
-- **Integrity**: Validasi data
-- **Availability**: Ketahanan terhadap DoS
+### 4.1 Keamanan Berlapis (Defense in Depth)
+- **Autentikasi Kuat**
+  ```python
+  # Contoh implementasi autentikasi JWT
+  import jwt
+  
+  def create_token(user_id):
+      payload = {
+          'user_id': user_id,
+          'exp': datetime.utcnow() + timedelta(hours=1)
+      }
+      return jwt.encode(payload, 'secret_key', algorithm='HS256')
+  ```
+- **Enkripsi Data**
+  - AES-256 untuk data sensitif
+  - TLS 1.2+ untuk komunikasi
+  - Enkripsi end-to-end
 
-### 4.2 Zero Trust Architecture
-- Verify explicitly
-- Use least privilege access
-- Assume breach
+### 4.2 Keamanan dari Desain
+1. **Privasi**
+   - Data minimalis
+   - Anonimasi data
+   - Persetujuan pengguna
 
-## 5. Praktik Keamanan IoT
+2. **Minimal Permukaan Serangan**
+   - Nonaktifkan layanan tidak perlu
+   - Prinsip least privilege
+   - Isolasi komponen
 
-### 5.1 Keamanan Perangkat Keras
-- Secure boot
-- TPM (Trusted Platform Module)
-- Secure element
-- Physical tamper protection
+### 4.3 Pembaruan Keamanan
+- **OTA Update Aman**
+  ```mermaid
+  sequenceDiagram
+      Perangkat->>Server: Minta pembaruan
+      Server-->>Perangkat: Kirim metadata (versi, ukuran)
+      Perangkat->>Server: Verifikasi tanda tangan
+      Server-->>Perangkat: Kirim pembaruan terenkripsi
+      Perangkat->>Perangkat: Verifikasi dan instal
+  ```
 
-### 5.2 Keamanan Perangkat Lunak
-- Update firmware secara berkala
-- Code signing
-- Secure coding practices
-- Input validation
+## 5. Implementasi Praktis
 
-### 5.3 Keamanan Komunikasi
-- Enkripsi (TLS/DTLS)
-- Autentikasi perangkat
-- Pembaruan kunci
-- Intrusion Detection System (IDS)
+### 5.1 Pengamanan Perangkat Keras
+- **Secure Boot**
+  - Verifikasi bootloader
+  - Tanda tangan kode
+  - Proteksi flash memory
 
-## 6. Studi Kasus
+- **Keamanan Fisik**
+  | Komponen | Ancaman | Mitigasi |
+  |----------|---------|----------|
+  | Port USB | Eksploitasi | Nonaktifkan debug |
+  | Chipset | Cloning | Pengenal unik |
+  | Sensor | Manipulasi | Validasi data |
 
-### 6.1 Mirai Botnet (2016)
-- Menargetkan perangkat IoT dengan kredensial default
-- Menciptakan botnet besar untuk serangan DDoS
-- Dampak: Menjatuhkan layanan besar seperti Twitter, Netflix, Reddit
+### 5.2 Keamanan Jaringan IoT
+- **Segmentasi Jaringan**
+  ```
+  [Internet]
+      |
+  [Firewall]
+      |
+  +-------------------+
+  | Jaringan Utama    |
+  |  - Server         |
+  |  - Database       |
+  +-------------------+
+          |
+  +-------------------+
+  | Jaringan IoT      |
+  |  - Perangkat IoT  |
+  |  - Gateway        |
+  +-------------------+
+  ```
 
-### 6.2 Stuxnet (2010)
-- Malware yang menargetkan SCADA systems
-- Merusak fasilitas pengayaan uranium Iran
-- Demonstrasi pertama serangan siber terhadap infrastruktur fisik
+### 5.3 Manajemen Identitas
+- **RBAC (Role-Based Access Control)**
+  - Admin: Full access
+  - Operator: Monitoring
+  - Guest: Baca saja
 
-## 7. Tools Keamanan IoT
+## 6. Studi Kasus: Sistem Parkir
 
-### 7.1 Analisis Keamanan
-- Wireshark
-- Nmap
-- Shodan
-- Firmware Analysis Toolkit
+### 6.1 Ancaman dan Solusi
+| Ancaman | Dampak | Solusi |
+|---------|--------|--------|
+| Spoofing Kamera | Akses tidak sah | Autentikasi perangkat |
+| Manipulasi Data | Laporan salah | Checksum data |
+| DoS | Sistem down | Rate limiting |
 
-### 7.2 Pengujian Keamanan
-- OWASP ZAP
-- Burp Suite
-- Kali Linux IoT Tools
+### 6.2 Implementasi Keamanan
+1. **Autentikasi Perangkat**
+   ```python
+   def verify_device(mac):
+       # Daftar MAC address terpercaya
+       trusted = {
+           '00:1A:2B:3C:4D:5E': 'gate-01',
+           '00:1A:2B:3C:4D:5F': 'camera-01'
+       }
+       return trusted.get(mac)
+   ```
 
-## 8. Tantangan dan Tren Masa Depan
+2. **Enkripsi Data**
+   ```python
+   from cryptography.fernet import Fernet
+   
+   key = Fernet.generate_key()
+   cipher = Fernet(key)
+   
+   def encrypt_data(data):
+       return cipher.encrypt(data.encode())
+   ```
 
-### 8.1 Tantangan
-- Skala dan kompleksitas
-- Umur panjang perangkat
-- Regulasi yang beragam
-- Keterbatasan sumber daya
+## 7. Praktik Terbaik
 
-### 8.2 Tren Masa Depan
-- AI untuk keamanan IoT
-- Blockchain untuk kepercayaan perangkat
-- Quantum-safe cryptography
-- Edge computing security
+### 7.1 Pengembangan Aman
+- Gunakan tool SAST/DAST
+- Lakukan code review
+- Terapkan secure coding
+
+### 7.2 Monitoring
+- Log semua akses
+- Deteksi anomali
+- Alerting otomatis
+
+## 8. Tantangan Masa Depan
+- **Edge Computing**
+  - Keamanan di edge
+  - Verifikasi perangkat
+  
+- **AI/ML**
+  - Deteksi serangan
+  - Analisis perilaku
 
 ## 9. Referensi
-1. OWASP IoT Project
-2. NIST Guidelines for IoT Security
-3. ENISA Baseline Security Recommendations for IoT
-4. IoT Security Foundation Best Practice Guides
+1. OWASP IoT Security Guidelines
+2. NISTIR 8259A
+3. ENISA IoT Security Baseline
+4. IoT Security Foundation
 
 ---
+
 <div align="center">
   <p>Dokumen Teori - Keamanan IoT</p>
   <p>© 2025 SMKN 1 Punggelan</p>

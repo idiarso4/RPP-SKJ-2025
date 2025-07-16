@@ -8,11 +8,16 @@ Setelah menyelesaikan praktikum ini, peserta didik mampu:
 4. Menganalisis lalu lintas jaringan
 
 ## 🛠️ Alat dan Bahan
-- Python 3.8+
-- Text editor (VS Code, PyCharm, dll.)
-- Terminal/Command Prompt
-- Wireshark (untuk analisis jaringan)
-- Dua perangkat (bisa menggunakan virtual machine)
+- Python 3.8+  
+  Digunakan sebagai bahasa pemrograman utama untuk membuat aplikasi client-server.
+- Text editor (VS Code, PyCharm, dll.)  
+  Untuk menulis dan mengedit kode program.
+- Terminal/Command Prompt  
+  Untuk menjalankan perintah dan program Python.
+- Wireshark (untuk analisis jaringan)  
+  Digunakan untuk memantau dan menganalisis paket data yang lewat di jaringan.
+- Dua perangkat (bisa menggunakan virtual machine)  
+  Untuk menguji komunikasi jaringan secara nyata, bisa juga menggunakan dua terminal pada satu komputer.
 
 ## 📋 Langkah 1: Persiapan Lingkungan
 
@@ -22,8 +27,10 @@ Pastikan Python sudah terinstal di komputer Anda:
 python --version
 python3 --version
 ```
+Jika belum terinstal, unduh dari [python.org](https://www.python.org/downloads/).
 
 ### 1.2 Buat Direktori Proyek
+Buat struktur direktori agar kode lebih rapi:
 ```bash
 mkdir -p praktikum_jaringan/{client,server}
 cd praktikum_jaringan
@@ -179,7 +186,7 @@ class ThreadedServer:
                     client.send(response.encode())
                     print(f"Dari {address}: {data}")
                 else:
-                    raise error('Client terputus')
+                    raise Exception('Client terputus')
                     
         except Exception as e:
             print(f"Error: {e}")
@@ -200,7 +207,6 @@ if __name__ == "__main__":
    ```bash
    python server/threaded_server.py
    ```
-
 2. Buka beberapa terminal dan jalankan beberapa client:
    ```bash
    # Terminal 1
@@ -224,8 +230,9 @@ if __name__ == "__main__":
 
 ### 5.3 Analisis Paket
 - Filter `tcp.port == 12345` untuk melihat lalu lintas aplikasi kita
-- Analisis proses TCP 3-way handshake
+- Analisis proses TCP 3-way handshake (SYN, SYN-ACK, ACK)
 - Perhatikan pertukaran data antara client dan server
+- Amati apakah data yang dikirimkan terenkripsi atau tidak
 
 ## 📝 Laporan Praktikum
 
@@ -262,10 +269,10 @@ if __name__ == "__main__":
    - Saran perbaikan
 
 ## 🧩 Tantangan Lanjutan
-1. Modifikasi kode untuk mendukung transfer file
-2. Tambahkan enkripsi menggunakan TLS/SSL
-3. Buat aplikasi chat sederhana dengan antarmuka GUI
-4. Implementasikan protokol FTP sederhana
+1. Modifikasi kode untuk mendukung transfer file antar client dan server.
+2. Tambahkan enkripsi menggunakan TLS/SSL agar komunikasi lebih aman.
+3. Buat aplikasi chat sederhana dengan antarmuka GUI (misal menggunakan Tkinter atau PyQt).
+4. Implementasikan protokol FTP sederhana untuk transfer file.
 
 ## ⚠️ Troubleshooting
 
@@ -288,10 +295,17 @@ taskkill /PID <PID> /F
 3. Nonaktifkan firewall sementara
 4. Pastikan tidak ada blokir dari antivirus
 
+### Masalah: Client Tidak Bisa Terhubung ke Server di Komputer Lain
+**Solusi:**
+- Pastikan kedua perangkat terhubung ke jaringan yang sama
+- Gunakan alamat IP server yang benar, bukan `localhost`
+- Cek pengaturan firewall di kedua perangkat
+
 ## 📚 Referensi
 1. [Python Socket Programming](https://realpython.com/python-sockets/)
 2. [Wireshark User's Guide](https://www.wireshark.org/docs/wsug_html/)
 3. [Python Threading Documentation](https://docs.python.org/3/library/threading.html)
+4. [Beej's Guide to Network Programming](https://beej.us/guide/bgnet/)
 
 ---
 <div align="center">

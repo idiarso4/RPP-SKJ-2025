@@ -42,11 +42,21 @@ graph TD
     Model TCP/IP lebih praktis dan umum digunakan di dunia nyata, terdiri dari 4 lapisan yaitu Network Interface, Internet, Transport, dan Application. TCP dan UDP merupakan protokol utama di lapisan transport yang digunakan dalam pemrograman jaringan  .
     
 ### 2.2 Protokol Jaringan Umum
-- **HTTP/HTTPS**: Protokol untuk transfer data web
-- **FTP/FTPS/SFTP**: Protokol transfer file
-- **SSH**: Koneksi aman ke remote server
-- **SMTP/POP3/IMAP**: Protokol email
-- **DNS**: Sistem penamaan domain
+
+- **HTTP/HTTPS**:  
+  HyperText Transfer Protocol (HTTP) adalah protokol utama yang digunakan untuk mentransfer data di web, seperti halaman HTML, gambar, dan file lainnya antara web server dan browser. HTTPS (HTTP Secure) adalah versi aman dari HTTP yang menggunakan enkripsi SSL/TLS untuk melindungi data selama transmisi, sehingga mencegah penyadapan dan manipulasi data oleh pihak ketiga.
+
+- **FTP/FTPS/SFTP**:  
+  File Transfer Protocol (FTP) digunakan untuk mentransfer file antara komputer dalam jaringan. FTPS (FTP Secure) menambahkan lapisan keamanan SSL/TLS pada FTP, sedangkan SFTP (SSH File Transfer Protocol) berjalan di atas protokol SSH, sehingga seluruh proses transfer file dienkripsi dan lebih aman. Protokol-protokol ini umum digunakan untuk upload/download file ke/dari server.
+
+- **SSH**:  
+  Secure Shell (SSH) adalah protokol jaringan yang memungkinkan koneksi aman ke komputer lain secara remote. SSH mengenkripsi seluruh komunikasi, sehingga data login dan perintah yang dikirimkan tidak dapat disadap. SSH sering digunakan untuk administrasi server, transfer file (melalui SFTP atau SCP), dan tunneling port.
+
+- **SMTP/POP3/IMAP**:  
+  Simple Mail Transfer Protocol (SMTP) digunakan untuk mengirim email dari client ke server email atau antar server email. POP3 (Post Office Protocol 3) dan IMAP (Internet Message Access Protocol) digunakan untuk mengambil email dari server ke client. POP3 biasanya mengunduh dan menghapus email dari server, sedangkan IMAP memungkinkan sinkronisasi email di banyak perangkat tanpa menghapus dari server.
+
+- **DNS**:  
+  Domain Name System (DNS) adalah sistem yang menerjemahkan nama domain (seperti www.example.com) menjadi alamat IP yang dapat dimengerti oleh komputer. DNS sangat penting agar pengguna dapat mengakses layanan di internet menggunakan nama yang mudah diingat, bukan deretan angka alamat
 
 ## 3. Socket Programming dengan Python
 
@@ -54,17 +64,25 @@ graph TD
 Socket adalah endpoint dari komunikasi dua arah antara dua program yang berjalan di jaringan. Socket terikat ke nomor port sehingga lapisan TCP dapat mengidentifikasi aplikasi yang dimaksud untuk mengirim data.
 
 ### 3.2 Jenis Socket
-1. **Stream Sockets (SOCK_STREAM)**
-   - Menggunakan TCP
-   - Koneksi berorientasi
-   - Handal (reliable)
-   - Berurutan (in-order)
+Socket dalam pemrograman jaringan dibedakan berdasarkan jenis protokol transport yang digunakan dan cara kerjanya. Dua jenis socket yang paling umum adalah:
 
-2. **Datagram Sockets (SOCK_DGRAM)**
-   - Menggunakan UDP
-   - Tanpa koneksi
-   - Tidak handal (unreliable)
-   - Bisa tidak berurutan
+1. **Stream Sockets (SOCK_STREAM)**  
+   Stream socket menggunakan protokol TCP (Transmission Control Protocol). Jenis socket ini bersifat koneksi berorientasi (connection-oriented), artinya sebelum data dapat dikirim, harus ada proses pembentukan koneksi antara client dan server.  
+   - **Menggunakan TCP**: TCP menjamin data yang dikirim akan sampai ke tujuan secara utuh dan berurutan.
+   - **Koneksi berorientasi**: Sebelum komunikasi dimulai, client dan server harus melakukan proses "handshake" untuk membangun koneksi.
+   - **Handal (reliable)**: Data yang dikirimkan akan dikonfirmasi penerimaannya. Jika terjadi kehilangan data, TCP akan mengirim ulang data tersebut.
+   - **Berurutan (in-order)**: Data yang diterima oleh penerima akan sama urutannya dengan data yang dikirim oleh pengirim.
+   - **Contoh penggunaan**: Aplikasi web, email, file transfer (FTP), dan aplikasi chat yang membutuhkan keandalan dan urutan data.
+
+2. **Datagram Sockets (SOCK_DGRAM)**  
+   Datagram socket menggunakan protokol UDP (User Datagram Protocol). Jenis socket ini bersifat connectionless (tanpa koneksi), sehingga tidak ada proses pembentukan koneksi sebelum data dikirim.
+   - **Menggunakan UDP**: UDP tidak menjamin data sampai ke tujuan, dan tidak menjamin urutan data.
+   - **Tanpa koneksi**: Data dapat langsung dikirim tanpa harus membangun koneksi terlebih dahulu.
+   - **Tidak handal (unreliable)**: Tidak ada jaminan data sampai ke tujuan, dan tidak ada mekanisme pengiriman ulang jika data hilang.
+   - **Bisa tidak berurutan**: Data dapat diterima dalam urutan yang berbeda dari urutan pengiriman.
+   - **Contoh penggunaan**: Aplikasi streaming video/audio, VoIP, game online, atau aplikasi lain yang membutuhkan kecepatan dan toleran terhadap kehilangan data.
+
+Dengan memahami perbedaan kedua jenis socket ini, pengembang dapat memilih jenis socket yang sesuai dengan kebutuhan aplikasi
 
 ### 3.3 Membuat Socket Sederhana
 ```python
@@ -368,11 +386,21 @@ if __name__ == "__main__":
 ## 7. Keamanan dalam Pemrograman Jaringan
 
 ### 7.1 Ancaman Umum
-1. **Man-in-the-Middle (MITM)**
-2. **Denial of Service (DoS)**
-3. **Injeksi Kode**
-4. **Sniffing Paket**
-5. **Spoofing**
+
+1. **Man-in-the-Middle (MITM)**  
+   Serangan MITM terjadi ketika pihak ketiga berhasil menyusup di antara komunikasi dua pihak (misal client dan server) tanpa sepengetahuan mereka. Penyerang dapat mencegat, membaca, bahkan memodifikasi data yang dikirimkan. Contoh: penyadapan data login pada jaringan WiFi publik yang tidak aman. Pencegahan: gunakan enkripsi seperti TLS/SSL.
+
+2. **Denial of Service (DoS)**  
+   Serangan DoS bertujuan membuat layanan jaringan tidak dapat diakses oleh pengguna sah dengan cara membanjiri server dengan permintaan palsu secara terus-menerus hingga sumber daya server habis. Pada skala besar, serangan ini disebut DDoS (Distributed DoS) karena dilakukan dari banyak komputer secara bersamaan. Pencegahan: gunakan firewall, rate limiting, dan monitoring trafik.
+
+3. **Injeksi Kode**  
+   Injeksi kode terjadi ketika penyerang memasukkan perintah berbahaya ke dalam aplikasi, misalnya melalui input pengguna yang tidak divalidasi. Contoh: SQL Injection pada aplikasi web yang terhubung ke database, atau command injection pada aplikasi jaringan. Pencegahan: selalu validasi dan sanitasi input pengguna, gunakan parameterized queries.
+
+4. **Sniffing Paket**  
+   Sniffing adalah aktivitas memantau dan menangkap paket data yang lewat di jaringan. Penyerang dapat memperoleh informasi sensitif seperti username, password, atau data pribadi jika data tidak dienkripsi. Pencegahan: gunakan protokol yang terenkripsi (HTTPS, SFTP, SSH) dan hindari penggunaan jaringan publik tanpa perlindungan.
+
+5. **Spoofing**  
+   Spoofing adalah upaya penyerang untuk menyamar sebagai entitas lain dengan memalsukan identitas, seperti alamat IP, MAC address, atau email. Tujuannya bisa untuk mendapatkan akses ilegal atau menipu pengguna lain. Contoh: IP spoofing, ARP spoofing, dan email spoofing. Pencegahan: gunakan autentikasi yang kuat dan verifikasi
 
 ### 7.2 Praktik Terbaik
 1. **Gunakan TLS/SSL** untuk enkripsi
